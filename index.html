@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Есть одно предложение... 🌙</title>
+    <style>
+        body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden; text-align: center; }
+        .container { background: rgba(255, 255, 255, 0.95); padding: 40px 50px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); max-width: 500px; width: 90%; }
+        h1 { color: #5a67d8; font-size: 2.2em; margin-bottom: 10px; }
+        p { color: #555; font-size: 1.2em; line-height: 1.6; margin-bottom: 30px; }
+        .buttons { display: flex; justify-content: center; gap: 20px; }
+        button { padding: 14px 35px; font-size: 1.1em; border: none; border-radius: 50px; cursor: pointer; transition: transform 0.2s; font-weight: bold; }
+        #yesBtn { background: #48bb78; color: white; box-shadow: 0 4px 15px rgba(72, 187, 120, 0.4); }
+        #yesBtn:hover { transform: scale(1.1); }
+        #noBtn { background: #e0e0e0; color: #666; position: relative; }
+        .success-screen { display: none; animation: fadeIn 1s; }
+        .success-screen h1 { font-size: 3em; color: #48bb78; }
+        .success-screen p { font-size: 1.4em; color: #5a67d8; }
+        @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+        .star { position: absolute; font-size: 24px; animation: fall linear forwards; pointer-events: none; }
+        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
+        .debug-msg { margin-top: 20px; padding: 10px; border-radius: 8px; font-size: 0.9em; display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="questionScreen">
+            <h1>Привет! 🌙</h1>
+            <p>Я давно хотел тебя спросить...<br>Как насчёт того, чтобы провести время вместе?<br>Прогуляться, поболтать, просто быть рядом ✨</p>
+            <div class="buttons">
+                <button id="yesBtn" onclick="sendAnswer('Да, пойду гулять! 🎉')">Да, пошли! </button>
+                <button id="noBtn" onmouseover="runAway()" ontouchstart="runAway()">Не-а</button>
+            </div>
+            <div id="debug" class="debug-msg"></div>
+        </div>
+        <div class="success-screen" id="successScreen">
+            <h1>Ура! 🎊</h1>
+            <p>Я так рад!<br>Напишу тебе, договоримся о встрече! </p>
+        </div>
+    </div>
+
+    <script>
+        const BOT_TOKEN = "8804170512:AAHBA6KzxX5EV6oYMPKrvZsxpDTNGt0wLjc";
+        const YOUR_ID = 5831572872;
+
+        function runAway() {
+            const btn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth - 20);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight - 20);
+            btn.style.position = 'absolute';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+            btn.style.transition = 'all 0.3s ease';
+            const texts = ["Не-а", "Точно? 🤔", "Ну пожалуйста!", "Давай согласись 😊", "Ну вот..."];
+            btn.innerText = texts[Math.floor(Math.random() * texts.length)];
+        }
+
+        async function sendAnswer(answer) {
+            const debugDiv = document.getElementById('debug');
+            debugDiv.style.display = 'block';
+            debugDiv.style.background = '#fff3cd';
+            debugDiv.style.color = '#856404';
+            debugDiv.innerText = '⏳ Отправка...';
+
+            const text = `🌟 <b>Предложение отправлено!</b>\n\n💬 Ответ: <b>${answer}</b>\n🕐 Время: ${new Date().toLocaleTimeString('ru-RU')}`;
+            
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({chat_id: YOUR_ID, text: text, parse_mode: 'HTML'})
+                });
+                const result = await response.json();
+                
+                if (result.ok) {
+                    debugDiv.style.background = '#d4edda';
+                    debugDiv.style.color = '#155724';
+                    debugDiv.innerText = '✅ Успешно!';
+                } else {
+                    debugDiv.style.background = '#f8d7da';
+                    debugDiv.style.color = '#721c24';
+                    debugDiv.innerText = '❌ Ошибка: ' + result.description;
+                }
+            } catch (error) {
+                debugDiv.style.background = '#f8d7da';
+                debugDiv.style.color = '#721c24';
+                debugDiv.innerText = '❌ Ошибка: ' + error.message;
+            }
+
+            setTimeout(() => {
+                document.getElementById('questionScreen').style.display = 'none';
+                document.getElementById('successScreen').style.display = 'block';
+                createStars();
+            }, 1000);
+        }
+
+        function createStars() {
+            const stars = ['🌟', '✨', '⭐', '🎉', '', '💜'];
+            for (let i = 0; i < 60; i++) {
+                setTimeout(() => {
+                    const s = document.createElement('span');
+                    s.classList.add('star');
+                    s.innerText = stars[Math.floor(Math.random() * stars.length)];
+                    s.style.left = Math.random() * 100 + 'vw';
+                    s.style.top = '-50px';
+                    s.style.fontSize = (Math.random() * 25 + 15) + 'px';
+                    s.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    document.body.appendChild(s);
+                    setTimeout(() => s.remove(), 5000);
+                }, i * 80);
+            }
+        }
+    </script>
+</body>
+</html>
