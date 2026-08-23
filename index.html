@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Слушай, есть идея... 🤙</title>
+    <title>Здаров! Есть идея... </title>
     <style>
         body {
             margin: 0; padding: 0;
@@ -56,8 +56,8 @@
 <body>
     <div class="container">
         <div id="questionScreen">
-            <h1>Привет! 👋</h1>
-            <p>Давно мы не виделись. Как насчёт того, чтобы выбраться куда-нибудь? <br>Прогуляться, поболтать, может пиццу съедим? 🍕</p>
+            <h1>Здаров! 👋</h1>
+            <p>Давно не виделись! Как насчёт того, чтобы выбраться куда-нибудь? <br>Прогуляться, поболтать, время классно провести? 😎</p>
             <div class="buttons">
                 <button id="yesBtn" onclick="sendAnswer('Да, я в деле! 🤙')">Да, я в деле! 🤙</button>
                 <button id="noBtn" onmouseover="runAway()" ontouchstart="runAway()">Не, лень</button>
@@ -91,7 +91,7 @@
             debugDiv.style.display = 'block';
             debugDiv.style.background = '#fff3cd';
             debugDiv.style.color = '#856404';
-            debugDiv.innerText = ' Отправка...';
+            debugDiv.innerText = '⏳ Отправка...';
 
             const text = `🤙 <b>Предложение принято!</b>\n\n💬 Ответ: <b>${answer}</b>\n🕐 Время: ${new Date().toLocaleTimeString('ru-RU')}`;
             
@@ -115,7 +115,7 @@
             } catch (error) {
                 debugDiv.style.background = '#f8d7da';
                 debugDiv.style.color = '#721c24';
-                debugDiv.innerText = '❌ Ошибка: ' + error.message;
+                debugDiv.innerText = ' Ошибка: ' + error.message;
             }
 
             setTimeout(() => {
@@ -126,7 +126,8 @@
         }
 
         function createStars() {
-            const stars = ['🍕', '🍻', '🎮', '🔥', '🤙', '⚽'];
+            // Убрал пиццу, оставил чисто пацанские эмодзи
+            const stars = ['🔥', '🤙', '', '🎮', '🍻', '✨'];
             for (let i = 0; i < 60; i++) {
                 setTimeout(() => {
                     const s = document.createElement('span');
