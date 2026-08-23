@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Здаров! Есть идея... </title>
+    <title>Здаров! Есть тема... 🔥</title>
     <style>
         body {
             margin: 0; padding: 0;
             display: flex; justify-content: center; align-items: center;
             height: 100vh;
-            background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+            background: linear-gradient(135deg, #232526 0%, #414345 100%);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden; text-align: center;
         }
         .container {
             background: rgba(255, 255, 255, 0.95);
             padding: 40px 30px; border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             max-width: 500px; width: 90%;
         }
-        h1 { color: #0072ff; font-size: 2.2em; margin-bottom: 10px; }
+        h1 { color: #333; font-size: 2.2em; margin-bottom: 10px; }
         p { color: #444; font-size: 1.2em; line-height: 1.6; margin-bottom: 30px; }
         .buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
         button {
@@ -28,14 +28,14 @@
             transition: transform 0.2s; font-weight: bold;
         }
         #yesBtn {
-            background: #00c853; color: white;
-            box-shadow: 0 4px 15px rgba(0, 200, 83, 0.4);
+            background: #ff5722; color: white;
+            box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
         }
         #yesBtn:hover { transform: scale(1.1); }
         #noBtn { background: #e0e0e0; color: #666; position: relative; }
         .success-screen { display: none; animation: fadeIn 1s; }
-        .success-screen h1 { font-size: 3em; color: #00c853; }
-        .success-screen p { font-size: 1.4em; color: #0072ff; }
+        .success-screen h1 { font-size: 3em; color: #ff5722; }
+        .success-screen p { font-size: 1.4em; color: #333; }
         @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
         .star {
             position: absolute; font-size: 24px;
@@ -56,17 +56,17 @@
 <body>
     <div class="container">
         <div id="questionScreen">
-            <h1>Здаров! 👋</h1>
-            <p>Давно не виделись! Как насчёт того, чтобы выбраться куда-нибудь? <br>Прогуляться, поболтать, время классно провести? 😎</p>
+            <h1>Здаров, брат! </h1>
+            <p>Короче, давно не виделись. Есть тема пересечься, побазарить, время нормально провести. Что скажешь? 😎</p>
             <div class="buttons">
-                <button id="yesBtn" onclick="sendAnswer('Да, я в деле! 🤙')">Да, я в деле! 🤙</button>
-                <button id="noBtn" onmouseover="runAway()" ontouchstart="runAway()">Не, лень</button>
+                <button id="yesBtn" onclick="sendAnswer('Да, я в деле! 🔥')">Давай, я в деле! 🔥</button>
+                <button id="noBtn" onmouseover="runAway()" ontouchstart="runAway()">Не, не катит</button>
             </div>
             <div id="debug" class="debug-msg"></div>
         </div>
         <div class="success-screen" id="successScreen">
-            <h1>Красава! 🔥</h1>
-            <p>Договорились! <br>Скину детали позже, готовься! 😎</p>
+            <h1>Базару нет! 💪</h1>
+            <p>Договорились, брат!<br>Скину координаты, будь на связи 📲</p>
         </div>
     </div>
 
@@ -82,7 +82,7 @@
             btn.style.left = x + 'px';
             btn.style.top = y + 'px';
             btn.style.transition = 'all 0.3s ease';
-            const texts = ["Не, лень", "Ну ты чего? 🤨", "Да ладно тебе!", "Не будь занудой ", "Пошли, не пожалеешь!"];
+            const texts = ["Не, не катит", "Брат, ты чего? 🤨", "Да ладно, не тупи", "Не будь скучным ", "Погнали, не пожалеешь!"];
             btn.innerText = texts[Math.floor(Math.random() * texts.length)];
         }
 
@@ -93,7 +93,7 @@
             debugDiv.style.color = '#856404';
             debugDiv.innerText = '⏳ Отправка...';
 
-            const text = `🤙 <b>Предложение принято!</b>\n\n💬 Ответ: <b>${answer}</b>\n🕐 Время: ${new Date().toLocaleTimeString('ru-RU')}`;
+            const text = `🔥 <b>Брат согласился!</b>\n\n💬 Ответ: <b>${answer}</b>\n🕐 Время: ${new Date().toLocaleTimeString('ru-RU')}`;
             
             try {
                 const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
@@ -115,7 +115,7 @@
             } catch (error) {
                 debugDiv.style.background = '#f8d7da';
                 debugDiv.style.color = '#721c24';
-                debugDiv.innerText = ' Ошибка: ' + error.message;
+                debugDiv.innerText = '❌ Ошибка: ' + error.message;
             }
 
             setTimeout(() => {
@@ -126,8 +126,7 @@
         }
 
         function createStars() {
-            // Убрал пиццу, оставил чисто пацанские эмодзи
-            const stars = ['🔥', '🤙', '', '🎮', '🍻', '✨'];
+            const stars = ['🔥', '🤙', '💪', '👊', '😎', '🎮'];
             for (let i = 0; i < 60; i++) {
                 setTimeout(() => {
                     const s = document.createElement('span');
